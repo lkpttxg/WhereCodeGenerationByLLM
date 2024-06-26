@@ -1,0 +1,562 @@
+root_path: &root !root
+source_root: &src_root !join [*root, "/crawled_data"]
+res_root: &res_root !join [*root, "/analysis_results"]
+
+
+chatgpt:
+  src: &gpt_src !join [*src_root, "/ChatGPT"]
+  res: &gpt_res !join [*res_root, "/ChatGPT"]
+  visualization:
+    src: !join [ *gpt_res, "/visualization/data" ]
+    res: &gpt_vis_res !join [ *gpt_res, "/visualization/figure"]
+  python:
+    src: &gpt_python_src !join [ *gpt_src, "/python" ]
+    res: &gpt_python_res !join [ *gpt_res, "/python" ]
+    visualization:
+      src: &gpt_python_vis_src_gpt !join [ *gpt_python_res, "/visualization/data" ]
+      res: &gpt_python_vis_res_gpt !join [ *gpt_python_res, "/visualization/figure" ]
+    generated:
+      src: &gpt_python_generated_src_gpt !join [ *gpt_python_src, "/generated" ]
+      res: &gpt_python_generated_res_gpt !join [ *gpt_python_res, "/generated" ]
+      projects:
+        src: !join [ *gpt_python_generated_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_python_generated_src_gpt, "/code" ]
+        res: !join [ *gpt_python_generated_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_python_generated_res_gpt, "/manual" ]
+        res: !join [ *gpt_python_generated_res_gpt, "/loc_change" ]
+    authored:
+      src: &gpt_python_authored_src_gpt !join [ *gpt_python_src, "/authored" ]
+      res: &gpt_python_authored_res_gpt !join [ *gpt_python_res, "/authored" ]
+      projects:
+        src: !join [ *gpt_python_authored_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_python_authored_src_gpt, "/code" ]
+        res: !join [ *gpt_python_authored_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_python_authored_res_gpt, "/manual" ]
+        res: !join [ *gpt_python_authored_res_gpt, "/loc_change" ]
+    coded:
+      src: &gpt_python_coded_src_gpt !join [ *gpt_python_src, "/coded" ]
+      res: &gpt_python_coded_res_gpt !join [ *gpt_python_res, "/coded" ]
+      projects:
+        src: !join [ *gpt_python_coded_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_python_coded_src_gpt, "/code" ]
+        res: !join [ *gpt_python_coded_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_python_coded_res_gpt, "/manual" ]
+        res: !join [ *gpt_python_coded_res_gpt, "/loc_change" ]
+    created:
+      src: &gpt_python_created_src_gpt !join [ *gpt_python_src, "/created" ]
+      res: &gpt_python_created_res_gpt !join [ *gpt_python_res, "/created" ]
+      projects:
+        src: !join [ *gpt_python_created_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_python_created_src_gpt, "/code" ]
+        res: !join [ *gpt_python_created_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_python_created_res_gpt, "/manual" ]
+        res: !join [ *gpt_python_created_res_gpt, "/loc_change" ]
+    implemented:
+      src: &gpt_python_implemented_src_gpt !join [ *gpt_python_src, "/implemented" ]
+      res: &gpt_python_implemented_res_gpt !join [ *gpt_python_res, "/implemented" ]
+      projects:
+        src: !join [ *gpt_python_implemented_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_python_implemented_src_gpt, "/code" ]
+        res: !join [ *gpt_python_implemented_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_python_implemented_res_gpt, "/manual" ]
+        res: !join [ *gpt_python_implemented_res_gpt, "/loc_change" ]
+    written:
+      src: &gpt_python_written_src_gpt !join [ *gpt_python_src, "/written" ]
+      res: &gpt_python_written_res_gpt !join [ *gpt_python_res, "/written" ]
+      projects:
+        src: !join [ *gpt_python_written_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_python_written_src_gpt, "/code" ]
+        res: !join [ *gpt_python_written_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_python_written_res_gpt, "/manual" ]
+        res: !join [ *gpt_python_written_res_gpt, "/loc_change" ]
+
+  java:
+    src: &gpt_java_src !join [ *gpt_src, "/java" ]
+    res: &gpt_java_res !join [ *gpt_res, "/java" ]
+    visualization:
+      src: &gpt_java_vis_src_gpt !join [ *gpt_java_res, "/visualization/data" ]
+      res: &gpt_java_vis_res_gpt !join [ *gpt_java_res, "/visualization/figure" ]
+    generated:
+      src: &gpt_java_generated_src_gpt !join [ *gpt_java_src, "/generated" ]
+      res: &gpt_java_generated_res_gpt !join [ *gpt_java_res, "/generated" ]
+      projects:
+        src: !join [ *gpt_java_generated_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_java_generated_src_gpt, "/code" ]
+        res: !join [ *gpt_java_generated_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_java_generated_res_gpt, "/manual" ]
+        res: !join [ *gpt_java_generated_res_gpt, "/loc_change" ]
+
+    authored:
+      src: &gpt_java_authored_src_gpt !join [ *gpt_java_src, "/authored" ]
+      res: &gpt_java_authored_res_gpt !join [ *gpt_java_res, "/authored" ]
+      projects:
+        src: !join [ *gpt_java_authored_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_java_authored_src_gpt, "/code" ]
+        res: !join [ *gpt_java_authored_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_java_authored_res_gpt, "/manual" ]
+        res: !join [ *gpt_java_authored_res_gpt, "/loc_change" ]
+
+    coded:
+      src: &gpt_java_coded_src_gpt !join [ *gpt_java_src, "/coded" ]
+      res: &gpt_java_coded_res_gpt !join [ *gpt_java_res, "/coded" ]
+      projects:
+        src: !join [ *gpt_java_coded_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_java_coded_src_gpt, "/code" ]
+        res: !join [ *gpt_java_coded_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_java_coded_res_gpt, "/manual" ]
+        res: !join [ *gpt_java_coded_res_gpt, "/loc_change" ]
+
+    created:
+      src: &gpt_java_created_src_gpt !join [ *gpt_java_src, "/created" ]
+      res: &gpt_java_created_res_gpt !join [ *gpt_java_res, "/created" ]
+      projects:
+        src: !join [ *gpt_java_created_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_java_created_src_gpt, "/code" ]
+        res: !join [ *gpt_java_created_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_java_created_res_gpt, "/manual" ]
+        res: !join [ *gpt_java_created_res_gpt, "/loc_change" ]
+
+    implemented:
+      src: &gpt_java_implemented_src_gpt !join [ *gpt_java_src, "/implemented" ]
+      res: &gpt_java_implemented_res_gpt !join [ *gpt_java_res, "/implemented" ]
+      projects:
+        src: !join [ *gpt_java_implemented_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_java_implemented_src_gpt, "/code" ]
+        res: !join [ *gpt_java_implemented_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_java_implemented_res_gpt, "/manual" ]
+        res: !join [ *gpt_java_implemented_res_gpt, "/loc_change" ]
+
+    written:
+      src: &gpt_java_written_src_gpt !join [ *gpt_java_src, "/written" ]
+      res: &gpt_java_written_res_gpt !join [ *gpt_java_res, "/written" ]
+      projects:
+        src: !join [ *gpt_java_written_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_java_written_src_gpt, "/code" ]
+        res: !join [ *gpt_java_written_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_java_written_res_gpt, "/manual" ]
+        res: !join [ *gpt_java_written_res_gpt, "/loc_change" ]
+
+  javascript:
+    src: &gpt_javascript_src !join [ *gpt_src, "/javascript" ]
+    res: &gpt_javascript_res !join [ *gpt_res, "/javascript" ]
+    visualization:
+      src: &gpt_javascript_vis_src_gpt !join [ *gpt_javascript_res, "/visualization/data" ]
+      res: &gpt_javascript_vis_res_gpt !join [ *gpt_javascript_res, "/visualization/figure" ]
+    generated:
+      src: &gpt_javascript_generated_src_gpt !join [ *gpt_javascript_src, "/generated" ]
+      res: &gpt_javascript_generated_res_gpt !join [ *gpt_javascript_res, "/generated" ]
+      projects:
+        src: !join [ *gpt_javascript_generated_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_javascript_generated_src_gpt, "/code" ]
+        res: !join [ *gpt_javascript_generated_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_javascript_generated_res_gpt, "/manual" ]
+        res: !join [ *gpt_javascript_generated_res_gpt, "/loc_change" ]
+
+    authored:
+      src: &gpt_javascript_authored_src_gpt !join [ *gpt_javascript_src, "/authored" ]
+      res: &gpt_javascript_authored_res_gpt !join [ *gpt_javascript_res, "/authored" ]
+      projects:
+        src: !join [ *gpt_javascript_authored_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_javascript_authored_src_gpt, "/code" ]
+        res: !join [ *gpt_javascript_authored_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_javascript_authored_res_gpt, "/manual" ]
+        res: !join [ *gpt_javascript_authored_res_gpt, "/loc_change" ]
+
+    coded:
+      src: &gpt_javascript_coded_src_gpt !join [ *gpt_javascript_src, "/coded" ]
+      res: &gpt_javascript_coded_res_gpt !join [ *gpt_javascript_res, "/coded" ]
+      projects:
+        src: !join [ *gpt_javascript_coded_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_javascript_coded_src_gpt, "/code" ]
+        res: !join [ *gpt_javascript_coded_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_javascript_coded_res_gpt, "/manual" ]
+        res: !join [ *gpt_javascript_coded_res_gpt, "/loc_change" ]
+
+    created:
+      src: &gpt_javascript_created_src_gpt !join [ *gpt_javascript_src, "/created" ]
+      res: &gpt_javascript_created_res_gpt !join [ *gpt_javascript_res, "/created" ]
+      projects:
+        src: !join [ *gpt_javascript_created_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_javascript_created_src_gpt, "/code" ]
+        res: !join [ *gpt_javascript_created_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_javascript_created_res_gpt, "/manual" ]
+        res: !join [ *gpt_javascript_created_res_gpt, "/loc_change" ]
+
+    implemented:
+      src: &gpt_javascript_implemented_src_gpt !join [ *gpt_javascript_src, "/implemented" ]
+      res: &gpt_javascript_implemented_res_gpt !join [ *gpt_javascript_res, "/implemented" ]
+      projects:
+        src: !join [ *gpt_javascript_implemented_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_javascript_implemented_src_gpt, "/code" ]
+        res: !join [ *gpt_javascript_implemented_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_javascript_implemented_res_gpt, "/manual" ]
+        res: !join [ *gpt_javascript_implemented_res_gpt, "/loc_change" ]
+
+    written:
+      src: &gpt_javascript_written_src_gpt !join [ *gpt_javascript_src, "/written" ]
+      res: &gpt_javascript_written_res_gpt !join [ *gpt_javascript_res, "/written" ]
+      projects:
+        src: !join [ *gpt_javascript_written_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_javascript_written_src_gpt, "/code" ]
+        res: !join [ *gpt_javascript_written_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_javascript_written_res_gpt, "/manual" ]
+        res: !join [ *gpt_javascript_written_res_gpt, "/loc_change" ]
+
+  typescript:
+    src: &gpt_typescript_src !join [ *gpt_src, "/typescript" ]
+    res: &gpt_typescript_res !join [ *gpt_res, "/typescript" ]
+    visualization:
+      src: &gpt_typescript_vis_src_gpt !join [ *gpt_typescript_res, "/visualization/data" ]
+      res: &gpt_typescript_vis_res_gpt !join [ *gpt_typescript_res, "/visualization/figure" ]
+
+    generated:
+      src: &gpt_typescript_generated_src_gpt !join [ *gpt_typescript_src, "/generated" ]
+      res: &gpt_typescript_generated_res_gpt !join [ *gpt_typescript_res, "/generated" ]
+      projects:
+        src: !join [ *gpt_typescript_generated_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_typescript_generated_src_gpt, "/code" ]
+        res: !join [ *gpt_typescript_generated_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_typescript_generated_res_gpt, "/manual" ]
+        res: !join [ *gpt_typescript_generated_res_gpt, "/loc_change" ]
+
+    authored:
+      src: &gpt_typescript_authored_src_gpt !join [ *gpt_typescript_src, "/authored" ]
+      res: &gpt_typescript_authored_res_gpt !join [ *gpt_typescript_res, "/authored" ]
+      projects:
+        src: !join [ *gpt_typescript_authored_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_typescript_authored_src_gpt, "/code" ]
+        res: !join [ *gpt_typescript_authored_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_typescript_authored_res_gpt, "/manual" ]
+        res: !join [ *gpt_typescript_authored_res_gpt, "/loc_change" ]
+
+    coded:
+      src: &gpt_typescript_coded_src_gpt !join [ *gpt_typescript_src, "/coded" ]
+      res: &gpt_typescript_coded_res_gpt !join [ *gpt_typescript_res, "/coded" ]
+      projects:
+        src: !join [ *gpt_typescript_coded_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_typescript_coded_src_gpt, "/code" ]
+        res: !join [ *gpt_typescript_coded_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_typescript_coded_res_gpt, "/manual" ]
+        res: !join [ *gpt_typescript_coded_res_gpt, "/loc_change" ]
+
+    created:
+      src: &gpt_typescript_created_src_gpt !join [ *gpt_typescript_src, "/created" ]
+      res: &gpt_typescript_created_res_gpt !join [ *gpt_typescript_res, "/created" ]
+      projects:
+        src: !join [ *gpt_typescript_created_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_typescript_created_src_gpt, "/code" ]
+        res: !join [ *gpt_typescript_created_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_typescript_created_res_gpt, "/manual" ]
+        res: !join [ *gpt_typescript_created_res_gpt, "/loc_change" ]
+
+    implemented:
+      src: &gpt_typescript_implemented_src_gpt !join [ *gpt_typescript_src, "/implemented" ]
+      res: &gpt_typescript_implemented_res_gpt !join [ *gpt_typescript_res, "/implemented" ]
+      projects:
+        src: !join [ *gpt_typescript_implemented_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_typescript_implemented_src_gpt, "/code" ]
+        res: !join [ *gpt_typescript_implemented_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_typescript_implemented_res_gpt, "/manual" ]
+        res: !join [ *gpt_typescript_implemented_res_gpt, "/loc_change" ]
+
+    written:
+      src: &gpt_typescript_written_src_gpt !join [ *gpt_typescript_src, "/written" ]
+      res: &gpt_typescript_written_res_gpt !join [ *gpt_typescript_res, "/written" ]
+      projects:
+        src: !join [ *gpt_typescript_written_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_typescript_written_src_gpt, "/code" ]
+        res: !join [ *gpt_typescript_written_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_typescript_written_res_gpt, "/manual" ]
+        res: !join [ *gpt_typescript_written_res_gpt, "/loc_change" ]
+
+  csharp:
+    src: &gpt_csharp_src !join [ *gpt_src, "/csharp" ]
+    res: &gpt_csharp_res !join [ *gpt_res, "/csharp" ]
+    visualization:
+      src: &gpt_csharp_vis_src_gpt !join [ *gpt_csharp_res, "/visualization/data" ]
+      res: &gpt_csharp_vis_res_gpt !join [ *gpt_csharp_res, "/visualization/figure" ]
+
+    generated:
+      src: &gpt_csharp_generated_src_gpt !join [ *gpt_csharp_src, "/generated" ]
+      res: &gpt_csharp_generated_res_gpt !join [ *gpt_csharp_res, "/generated" ]
+      projects:
+        src: !join [ *gpt_csharp_generated_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_csharp_generated_src_gpt, "/code" ]
+        res: !join [ *gpt_csharp_generated_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_csharp_generated_res_gpt, "/manual" ]
+        res: !join [ *gpt_csharp_generated_res_gpt, "/loc_change" ]
+
+    authored:
+      src: &gpt_csharp_authored_src_gpt !join [ *gpt_csharp_src, "/authored" ]
+      res: &gpt_csharp_authored_res_gpt !join [ *gpt_csharp_res, "/authored" ]
+      projects:
+        src: !join [ *gpt_csharp_authored_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_csharp_authored_src_gpt, "/code" ]
+        res: !join [ *gpt_csharp_authored_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_csharp_authored_res_gpt, "/manual" ]
+        res: !join [ *gpt_csharp_authored_res_gpt, "/loc_change" ]
+
+    coded:
+      src: &gpt_csharp_coded_src_gpt !join [ *gpt_csharp_src, "/coded" ]
+      res: &gpt_csharp_coded_res_gpt !join [ *gpt_csharp_res, "/coded" ]
+      projects:
+        src: !join [ *gpt_csharp_coded_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_csharp_coded_src_gpt, "/code" ]
+        res: !join [ *gpt_csharp_coded_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_csharp_coded_res_gpt, "/manual" ]
+        res: !join [ *gpt_csharp_coded_res_gpt, "/loc_change" ]
+
+    created:
+      src: &gpt_csharp_created_src_gpt !join [ *gpt_csharp_src, "/created" ]
+      res: &gpt_csharp_created_res_gpt !join [ *gpt_csharp_res, "/created" ]
+      projects:
+        src: !join [ *gpt_csharp_created_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_csharp_created_src_gpt, "/code" ]
+        res: !join [ *gpt_csharp_created_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_csharp_created_res_gpt, "/manual" ]
+        res: !join [ *gpt_csharp_created_res_gpt, "/loc_change" ]
+
+    implemented:
+      src: &gpt_csharp_implemented_src_gpt !join [ *gpt_csharp_src, "/implemented" ]
+      res: &gpt_csharp_implemented_res_gpt !join [ *gpt_csharp_res, "/implemented" ]
+      projects:
+        src: !join [ *gpt_csharp_implemented_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_csharp_implemented_src_gpt, "/code" ]
+        res: !join [ *gpt_csharp_implemented_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_csharp_implemented_res_gpt, "/manual" ]
+        res: !join [ *gpt_csharp_implemented_res_gpt, "/loc_change" ]
+
+    written:
+      src: &gpt_csharp_written_src_gpt !join [ *gpt_csharp_src, "/written" ]
+      res: &gpt_csharp_written_res_gpt !join [ *gpt_csharp_res, "/written" ]
+      projects:
+        src: !join [ *gpt_csharp_written_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_csharp_written_src_gpt, "/code" ]
+        res: !join [ *gpt_csharp_written_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_csharp_written_res_gpt, "/manual" ]
+        res: !join [ *gpt_csharp_written_res_gpt, "/loc_change" ]
+
+  cpp:
+    src: &gpt_cpp_src !join [ *gpt_src, "/cpp" ]
+    res: &gpt_cpp_res !join [ *gpt_res, "/cpp" ]
+    visualization:
+      src: &gpt_cpp_vis_src_gpt !join [ *gpt_cpp_res, "/visualization/data" ]
+      res: &gpt_cpp_vis_res_gpt !join [ *gpt_cpp_res, "/visualization/figure" ]
+    generated:
+      src: &gpt_cpp_generated_src_gpt !join [ *gpt_cpp_src, "/generated" ]
+      res: &gpt_cpp_generated_res_gpt !join [ *gpt_cpp_res, "/generated" ]
+      projects:
+        src: !join [ *gpt_cpp_generated_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_cpp_generated_src_gpt, "/code" ]
+        res: !join [ *gpt_cpp_generated_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_cpp_generated_res_gpt, "/manual" ]
+        res: !join [ *gpt_cpp_generated_res_gpt, "/loc_change" ]
+
+    authored:
+      src: &gpt_cpp_authored_src_gpt !join [ *gpt_cpp_src, "/authored" ]
+      res: &gpt_cpp_authored_res_gpt !join [ *gpt_cpp_res, "/authored" ]
+      projects:
+        src: !join [ *gpt_cpp_authored_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_cpp_authored_src_gpt, "/code" ]
+        res: !join [ *gpt_cpp_authored_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_cpp_authored_res_gpt, "/manual" ]
+        res: !join [ *gpt_cpp_authored_res_gpt, "/loc_change" ]
+
+    coded:
+      src: &gpt_cpp_coded_src_gpt !join [ *gpt_cpp_src, "/coded" ]
+      res: &gpt_cpp_coded_res_gpt !join [ *gpt_cpp_res, "/coded" ]
+      projects:
+        src: !join [ *gpt_cpp_coded_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_cpp_coded_src_gpt, "/code" ]
+        res: !join [ *gpt_cpp_coded_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_cpp_coded_res_gpt, "/manual" ]
+        res: !join [ *gpt_cpp_coded_res_gpt, "/loc_change" ]
+
+    created:
+      src: &gpt_cpp_created_src_gpt !join [ *gpt_cpp_src, "/created" ]
+      res: &gpt_cpp_created_res_gpt !join [ *gpt_cpp_res, "/created" ]
+      projects:
+        src: !join [ *gpt_cpp_created_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_cpp_created_src_gpt, "/code" ]
+        res: !join [ *gpt_cpp_created_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_cpp_created_res_gpt, "/manual" ]
+        res: !join [ *gpt_cpp_created_res_gpt, "/loc_change" ]
+
+    implemented:
+      src: &gpt_cpp_implemented_src_gpt !join [ *gpt_cpp_src, "/implemented" ]
+      res: &gpt_cpp_implemented_res_gpt !join [ *gpt_cpp_res, "/implemented" ]
+      projects:
+        src: !join [ *gpt_cpp_implemented_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_cpp_implemented_src_gpt, "/code" ]
+        res: !join [ *gpt_cpp_implemented_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_cpp_implemented_res_gpt, "/manual" ]
+        res: !join [ *gpt_cpp_implemented_res_gpt, "/loc_change" ]
+
+
+    written:
+      src: &gpt_cpp_written_src_gpt !join [ *gpt_cpp_src, "/written" ]
+      res: &gpt_cpp_written_res_gpt !join [ *gpt_cpp_res, "/written" ]
+      projects:
+        src: !join [ *gpt_cpp_written_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_cpp_written_src_gpt, "/code" ]
+        res: !join [ *gpt_cpp_written_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_cpp_written_res_gpt, "/manual" ]
+        res: !join [ *gpt_cpp_written_res_gpt, "/loc_change" ]
+
+  c:
+    src: &gpt_c_src !join [ *gpt_src, "/c" ]
+    res: &gpt_c_res !join [ *gpt_res, "/c" ]
+    visualization:
+      src: &gpt_c_vis_src_gpt !join [ *gpt_c_res, "/visualization/data" ]
+      res: &gpt_c_vis_res_gpt !join [ *gpt_c_res, "/visualization/figure" ]
+
+    generated:
+      src: &gpt_c_generated_src_gpt !join [ *gpt_c_src, "/generated" ]
+      res: &gpt_c_generated_res_gpt !join [ *gpt_c_res, "/generated" ]
+      projects:
+        src: !join [ *gpt_c_generated_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_c_generated_src_gpt, "/code" ]
+        res: !join [ *gpt_c_generated_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_c_generated_res_gpt, "/manual" ]
+        res: !join [ *gpt_c_generated_res_gpt, "/loc_change" ]
+
+    authored:
+      src: &gpt_c_authored_src_gpt !join [ *gpt_c_src, "/authored" ]
+      res: &gpt_c_authored_res_gpt !join [ *gpt_c_res, "/authored" ]
+      projects:
+        src: !join [ *gpt_c_authored_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_c_authored_src_gpt, "/code" ]
+        res: !join [ *gpt_c_authored_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_c_authored_res_gpt, "/manual" ]
+        res: !join [ *gpt_c_authored_res_gpt, "/loc_change" ]
+
+    coded:
+      src: &gpt_c_coded_src_gpt !join [ *gpt_c_src, "/coded" ]
+      res: &gpt_c_coded_res_gpt !join [ *gpt_c_res, "/coded" ]
+      projects:
+        src: !join [ *gpt_c_coded_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_c_coded_src_gpt, "/code" ]
+        res: !join [ *gpt_c_coded_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_c_coded_res_gpt, "/manual" ]
+        res: !join [ *gpt_c_coded_res_gpt, "/loc_change" ]
+
+    created:
+      src: &gpt_c_created_src_gpt !join [ *gpt_c_src, "/created" ]
+      res: &gpt_c_created_res_gpt !join [ *gpt_c_res, "/created" ]
+      projects:
+        src: !join [ *gpt_c_created_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_c_created_src_gpt, "/code" ]
+        res: !join [ *gpt_c_created_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_c_created_res_gpt, "/manual" ]
+        res: !join [ *gpt_c_created_res_gpt, "/loc_change" ]
+
+    implemented:
+      src: &gpt_c_implemented_src_gpt !join [ *gpt_c_src, "/implemented" ]
+      res: &gpt_c_implemented_res_gpt !join [ *gpt_c_res, "/implemented" ]
+      projects:
+        src: !join [ *gpt_c_implemented_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_c_implemented_src_gpt, "/code" ]
+        res: !join [ *gpt_c_implemented_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_c_implemented_res_gpt, "/manual" ]
+        res: !join [ *gpt_c_implemented_res_gpt, "/loc_change" ]
+
+    written:
+      src: &gpt_c_written_src_gpt !join [ *gpt_c_src, "/written" ]
+      res: &gpt_c_written_res_gpt !join [ *gpt_c_res, "/written" ]
+      projects:
+        src: !join [ *gpt_c_written_src_gpt, "/projects" ]
+      code:
+        src: !join [ *gpt_c_written_src_gpt, "/code" ]
+        res: !join [ *gpt_c_written_src_gpt, "/code_change" ]
+      manual:
+        src: !join [ *gpt_c_written_res_gpt, "/manual" ]
+        res: !join [ *gpt_c_written_res_gpt, "/loc_change" ]
+
+
+
+
+
+
+

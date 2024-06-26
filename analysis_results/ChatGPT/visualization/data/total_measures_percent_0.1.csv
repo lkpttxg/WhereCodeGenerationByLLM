@@ -1,0 +1,6 @@
+measure,percentage_lang,total_projects,total_locs,total_files,total_code_files,total_code_snippets,total_granularity_files,total_granularity_classes,total_granularity_methods,total_granularity_statements,total_change_file,total_change_commits,total_bug_change_file,total_bug_change_commits
+python,73.68421052631578,57,995835,9140,61,63,31,2,18,10,19,30,4,5.0
+java,90.9090909090909,11,3859815,11572,21,21,16,0,4,1,5,6,0,0.0
+cpp,91.66666666666666,12,950332,4923,13,13,4,1,7,1,6,18,3,3.0
+javascript,72.22222222222221,18,1671466,11060,139,139,126,0,12,1,20,51,2,3.0
+typescript,71.42857142857143,7,15010,290,8,8,4,0,2,2,4,43,2,15.0

@@ -1,0 +1,8 @@
+path_of_first_file_commit,keyword_index,matched_keyword,code_granularity,start_end_line
+arlib\373b0bbb7557856b273a7dc031bb70cdbcccf856\arlib\bool\sat\local_search.py,2,implemented by chatgpt,,
+miniF1RL\ee8f00bd0f345afc681312ad173a249356bda2b0\minif1env.py,239,implemented by chatgpt,,
+joplen_mlsp2024\695bde3ec29a7f395715bbad1537c07fe622020f\joplen\src\JOPLEn\custom_trees.py,1,implemented by chatgpt,,
+cpuEmulation\651ae5a79ac81100b0cd5732844e0224b2d1c59b\8080\bins_method\cpu.py,352,implemented by chatgpt,,
+RoboGen\2e2c69ca19b2ad67f24af4b4954740de7dd8d7f2\locomotion\sim.py,201,implemented by gpt-4,,
+chatgpt-presentation-generator-bot\392639ea0dd2693d162b40c268f2e2d9310929f8\bot\bot.py,80,implemented with chatgpt,,
+qpyone\b5d38e7e579e30cc18e3d662e787c5e96589226d\demos\telbot_dmeo\telebot.py,85,implemented with chatgpt,,
