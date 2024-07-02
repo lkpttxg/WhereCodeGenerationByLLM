@@ -20,7 +20,7 @@ def read_xlsx_to_csv(xlsx_path, llm_name, language, is_change=False):
 
     for index, row in xlsx_df.iterrows():
         path_of_first_file_commit = row['path_of_first_file_commit']
-        # 找到 df 中对应 path_of_first_file_commit 的行
+        # Find the line in df that corresponds to path_of_first_file_commit
         df_indexes = df[df['path_of_first_file_commit'] == path_of_first_file_commit].index
         if not df_indexes.empty:
             if is_change:
@@ -28,7 +28,7 @@ def read_xlsx_to_csv(xlsx_path, llm_name, language, is_change=False):
                 for df_index in df_indexes:
                     df.at[df_index, 'final_change_type'] = code_change_type
             else:
-                # 读取 xlsx_df 行的 code_type 内容并填充到 df
+                # Read the code_type content of the xlsx_df line and fill it into df
                 code_type_value = row['code_type']
                 # code_type_value = row['code_type_new_type']
                 for df_index in df_indexes:

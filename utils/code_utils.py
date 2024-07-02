@@ -306,7 +306,7 @@ def download_commit_message(llm_name, language, keyword):
                     break
 
             relative_file_path = file_commits[i].get('file_path')
-            # 获得文件名,不包含后缀
+            # Gets the file name without suffixes
             code_file_name = os.path.basename(relative_file_path).split('.')[0]
             save_local_path = Path(config[llm_name][language][keyword]["projects"]["src"]) / project_name / hash_code / os.path.dirname(
                 relative_file_path)
@@ -417,22 +417,22 @@ def count_effective_lines(file_path, keyword):
 
 
 def unzip_and_restructure(zip_filepath, target_path):
-    # 创建一个临时目录用于解压
+    # Create a temporary directory to decompress
     temp_dir = os.path.join(target_path, 'temp_unzip')
     os.makedirs(temp_dir, exist_ok=True)
 
-    # 解压文件到临时目录
+    # Unzip the files to a temporary directory
     with zipfile.ZipFile(zip_filepath, 'r') as zip_ref:
         zip_ref.extractall(temp_dir)
 
-    # 遍历临时目录的唯一子目录（假设只有一个根目录）
+    # Traverse the unique subdirectory of the temporary directory (assuming only one root directory)
     root_dir = os.listdir(temp_dir)
     if len(root_dir) != 1:
-        raise ValueError("压缩包中的根目录不止一个")
+        raise ValueError("The compressed package contains more than one root directory.")
 
     root_dir_path = os.path.join(temp_dir, root_dir[0])
 
-    # 将根目录中的内容移动到目标路径
+    # Move the contents of the root directory to the target path
     for item in os.listdir(root_dir_path):
         s = os.path.join(root_dir_path, item)
         d = os.path.join(target_path, item)
@@ -443,7 +443,7 @@ def unzip_and_restructure(zip_filepath, target_path):
         else:
             shutil.move(s, d)
 
-    # 删除临时目录
+    # Deleting a temporary directory
     shutil.rmtree(temp_dir)
 
 
@@ -485,7 +485,7 @@ def parse_str_to_arr(arr_str):
         start_end_line_data = ast.literal_eval(arr_str)
         print("start_end_line_data:", start_end_line_data)
 
-        # 根据解析结果的类型处理数据
+        # Process the data according to the type of the parsing result
         if isinstance(start_end_line_data, list):
             if all(isinstance(i, int) for i in start_end_line_data):
                 if len(start_end_line_data) == 2:

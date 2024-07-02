@@ -1,5 +1,5 @@
 '''
-读取json文件
+Read json file
 '''
 import ast
 import json
@@ -1333,9 +1333,9 @@ def get_loc_sum(start_end_line_list):
 
 def read_problematic_byte(file_path, byte_position, window=20):
     with open(file_path, 'rb') as file:
-        # 移动到问题字节位置
+        # Move to the problem byte location
         file.seek(byte_position - window // 2)
-        # 读取上下文字节
+        # Read context byte
         context = file.read(window)
         return context
 
@@ -1402,7 +1402,7 @@ def statistic_code_function_type(llm_name, language, only_bug_change=False, top_
         print("top_percent_threshold", top_percent_threshold)
         df = df[df['star'] >= top_percent_threshold]
 
-    # df根据 star 列的大小，过滤出前30%的最高star的项目
+    # df filters out the top 30% of items with the highest star based on the size of the star column
     # top_30_percent_threshold = df['star'].quantile(0.7)
     # df_top_30 = df[df['star'] >= top_30_percent_threshold]
 
@@ -1415,14 +1415,10 @@ def statistic_code_function_type(llm_name, language, only_bug_change=False, top_
     value_counts.columns = ['code_func_type', 'count']
     value_counts['percentage'] = (value_counts['count'] / value_counts['count'].sum()) * 100
 
-    # 然后我希望，哪几个code_func_type归为一个code_func_type，这几个统计到一起
+    # Then I want those code_func_type to be one code_func_type, and those are counted together
     merge_dict = {
-        '机器学习和深度学习模型代码': ['机器学习和深度学习模型代码', '图像处理和计算机视觉代码', '自然语言处理（NLP）和文本处理代码', '文本处理代码'],
-        '业务逻辑代码': ['业务逻辑代码', '加密货币代码', '机器人控制代码', '音乐生成代码'],
-        '安全类型的代码': ['安全类型的代码', '内存分配和释放相关的代码'],
-        '算法和数据结构实现代码': ['算法和数据结构实现代码', '数据结构和算法实现代码'],
         'Program input code, i.e., variable assignments and regular expressions': ['Program input code, i.e., variable assignments'],
-        'Data processing and transformation': ['未知']
+        'Data processing and transformation': ['Unknown']
     }
 
     def merge_types(row, column):
@@ -1447,17 +1443,13 @@ def statistic_code_function_type(llm_name, language, only_bug_change=False, top_
     expanded_change_types = df['final_change_type'].str.split(',', expand=True).stack().reset_index(level=1, drop=True)
     expanded_change_types.name = 'final_change_type'
 
-    # Remove excluded types
-    expanded_change_types = expanded_change_types[~expanded_change_types.isin(["Bug修复", 'bug修复'])]
 
     value_counts = expanded_change_types.value_counts().reset_index()
     value_counts.columns = ['final_change_type', 'count']
     value_counts['percentage'] = (value_counts['count'] / value_counts['count'].sum()) * 100
 
     merge_dict = {
-        '优化': ['优化', '性能优化', '用户体验优化'],
-        '样式调整': ['样式调整', '无变更', '无修改'],
-        '其他': ['依赖更新', '版本控制', '国际化和本地化', '测试']
+
     }
 
     value_counts['final_change_type'] = value_counts.apply(lambda row: merge_types(row, 'final_change_type'), axis=1)
@@ -1478,14 +1470,6 @@ def statistic_bug_fix_type(llm_name, language):
     print("Reading csv file:", filepath)
     df = pd.read_csv(filepath)
 
-    # df根据 star 列的大小，过滤出前30%的最高star的项目
-    # top_30_percent_threshold = df['star'].quantile(0.7)
-    # df_top_30 = df[df['star'] >= top_30_percent_threshold]
-
-    # column: real_fixed_commit_reason，一个单元格的内容为[[代码可维护性问题, 接口和依赖管理问题], [接口和依赖管理问题], [代码可维护性问题]]或者[接口和依赖管理问题]。
-    # 请先解析这个为数组，其中二维数组说明fixed_commit为多个，一维数组为1个。然后每个fixed_commit可能有多个修复的原因。
-    # 请统计总共有多少个fixed_commit,然后再分门别类的统计不同fixed_reason分别有多少个，然后存入csv中
-    # Parse 'real_fixed_commit_reason' column
     def parse_fixed_commit_reason(cell):
         if isinstance(cell, str):
             # Replace Chinese commas with English commas

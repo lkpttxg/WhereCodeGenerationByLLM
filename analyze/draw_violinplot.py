@@ -184,11 +184,11 @@ def statistics_metrics_for_all(top_percent=None):
                 print("top_percent_threshold", top_percent_threshold)
                 df = df[df['star'] >= top_percent_threshold]
 
-            # 获取去重的项目名的 DataFrame
+            # Gets the DataFrame of the de-duplicated project name
             unique_projects_df = df.drop_duplicates(subset=['project_name'])
 
             # print(unique_projects_df['project_language'].str.lower() == language.lower())
-            # 统计列“project_language”中等于特定语言的个数
+            # The number equal to a specific language in the project_language column
             if language != "cpp":
                 count_lang = \
                 unique_projects_df[unique_projects_df['project_language'].str.lower() == language.lower()].shape[0]
@@ -196,10 +196,10 @@ def statistics_metrics_for_all(top_percent=None):
                 count_lang = \
                 unique_projects_df[unique_projects_df['project_language'].str.lower().isin(['c', 'c++'])].shape[0]
 
-            # 计算这个数值相对于项目个数的百分比
+            # Calculate the percentage of this value relative to the number of items
             percentage_lang = (count_lang / unique_projects_df.shape[0]) * 100
 
-            # 计算并打印出 project_language 不同值的占比
+            # Calculate and print out the proportion of different values in project_language
             language_counts = unique_projects_df['project_language'].str.lower().value_counts(normalize=True) * 100
             print("\nPercentage of each language:")
             print(language_counts)
@@ -208,7 +208,7 @@ def statistics_metrics_for_all(top_percent=None):
                 measures["percentage_lang"] = [percentage_lang]
             else:
                 measures["percentage_lang"].append(percentage_lang)
-            # 打印结果（或者根据需要存储在 measures 字典中）
+            # Print the results (or store them in the measures dictionary as needed)
             print(f"Language: {language}, Percentage: {percentage_lang:.2f}%")
 
             if col == "total_projects":
@@ -337,9 +337,9 @@ def draw_violinplot_from_different_metrics(cols, titles=None, y_labels=None, res
             filtered_data = clean_data
 
             # --- filter 1 -----
-            # 计算99.5%分位数
+            # Calculate the 99.5% quantile
             # threshold = np.percentile(clean_data, 99.5)
-            # # 筛选出小于等于分位数阈值的点
+            # # Filter out points that are less than or equal to the quantile threshold
             # filtered_data = clean_data[clean_data <= threshold]
 
             # --- filter 2 -----
@@ -352,31 +352,31 @@ def draw_violinplot_from_different_metrics(cols, titles=None, y_labels=None, res
             # filtered_data = clean_data[(clean_data >= lower_bound) & (clean_data <= upper_bound)]
 
             # --- filter 3 -----
-            # 计算均值和标准差
+            # Calculate the mean and standard deviation
             # mean = clean_data.mean()
             # std = clean_data.std()
-            # # 筛选出小于等于均值两倍标准差的点
+            # # Select points that are less than or equal to twice the mean standard deviation
             # threshold = mean + 2 * std
             # filtered_data = clean_data[clean_data <= threshold]
 
             # --- filter 4 -----
-            # 设定阈值
+            # Threshold setting
             # threshold = 50
-            # # 筛选出小于等于阈值的点
+            # # Filter out the points that are less than or equal to the threshold
             # filtered_data = clean_data[clean_data <= threshold]
 
             # --- filter 5 -----
-            # # 排序
+            # # Sort
             # sorted_data = clean_data.sort_values(ascending=False)
-            # # 取出前 N 个最高值的索引
-            # N = 3  # 去除最高的3个值
+            # # Retrieves the index of the first N highest values
+            # N = 3  # Remove the highest 3 values
             # indices_to_remove = sorted_data.index[:N]
-            # # 去除前 N 个最高值
+            # # Remove the highest N values
             # filtered_data = clean_data.drop(indices_to_remove)
 
             sns.violinplot(y=filtered_data, ax=axs[row_idx, col_idx], cut=0)
             axs[row_idx, col_idx].set_ylim(bottom=-1)
-            # 设置y轴刻度标签的字体大小
+            # Set the font size of the Y-axis scale label
             axs[row_idx, col_idx].tick_params(axis='y', labelsize=20)
             # Calculate statistics
             median = filtered_data.median()
@@ -486,14 +486,13 @@ def draw_violinplot_manual_vs_gpt(top_percent=None):
 
                 filtered_data = generated_loc*1.0 / manual_loc
 
-                # 获取 filtered_data 中最大值对应的索引
+                # Gets the index corresponding to the maximum value in filtered_data
                 max_index = filtered_data.idxmax()
 
-                # 获取 max_index 对应的 clean_df 中的行信息
+                # Gets the row information in clean_df corresponding to max_index
                 max_row_info = clean_df.loc[max_index]
 
-                # 输出该行信息
-                print("filtered_data 最大值对应的行信息:")
+                print("filtered_data Specifies the row corresponding to the maximum value:")
                 print(max_row_info)
 
                 # filtered_data = pd.Series(
@@ -545,14 +544,14 @@ def draw_violinplot_manual_vs_gpt(top_percent=None):
 
                 filtered_data = generated_ratio_method / manual_ratio_method
 
-                # 获取 filtered_data 中最大值对应的索引
+                # Gets the index corresponding to the maximum value in filtered_data
                 max_index = filtered_data.idxmax()
 
-                # 获取 max_index 对应的 clean_df 中的行信息
+                # Gets the row information in clean_df corresponding to max_index
                 max_row_info = clean_df.loc[max_index]
 
-                # 输出该行信息
-                print("filtered_data 最大值对应的行信息:")
+                # Output line information
+                print("filtered_data Specifies the row corresponding to the maximum value:")
                 print(max_row_info)
 
             elif col == "written / generated method CogC":
@@ -597,14 +596,11 @@ def draw_violinplot_manual_vs_gpt(top_percent=None):
 
                 filtered_data = generated_ratio_method / manual_ratio_method
 
-                # 获取 filtered_data 中最大值对应的索引
                 max_index = filtered_data.idxmax()
 
-                # 获取 max_index 对应的 clean_df 中的行信息
                 max_row_info = clean_df.loc[max_index]
 
-                # 输出该行信息
-                print("filtered_data 最大值对应的行信息:")
+                print("filtered_data Specifies the row corresponding to the maximum value:")
                 print(max_row_info)
             elif col == "written / generated mod.":
                 clean_df = df
@@ -643,14 +639,12 @@ def draw_violinplot_manual_vs_gpt(top_percent=None):
                     index=clean_df.index
                 )
 
-                # 获取 filtered_data 中最大值对应的索引
+
                 max_index = filtered_data.idxmax()
 
-                # 获取 max_index 对应的 clean_df 中的行信息
                 max_row_info = clean_df.loc[max_index]
 
-                # 输出该行信息
-                print("filtered_data 最大值对应的行信息:")
+                print("filtered_data Specifies the row corresponding to the maximum value:")
                 print(max_row_info)
 
             elif col == "written / generated bug mod.":
@@ -690,21 +684,19 @@ def draw_violinplot_manual_vs_gpt(top_percent=None):
                     index=clean_df.index
                 )
 
-                # 获取 filtered_data 中最大值对应的索引
+
                 max_index = filtered_data.idxmax()
 
-                # 获取 max_index 对应的 clean_df 中的行信息
+
                 max_row_info = clean_df.loc[max_index]
 
 
-                # 输出该行信息
-                print("filtered_data 最大值对应的行信息:")
+                print("filtered_data Specifies the row corresponding to the maximum value:")
                 print(max_row_info)
 
 
             sns.violinplot(y=filtered_data, ax=axs[row_idx, col_idx], cut=0)
             axs[row_idx, col_idx].set_ylim(bottom=0)
-            # 设置y轴刻度标签的字体大小
             axs[row_idx, col_idx].tick_params(axis='y', labelsize=20)
             # Calculate statistics
             median = filtered_data.median()
