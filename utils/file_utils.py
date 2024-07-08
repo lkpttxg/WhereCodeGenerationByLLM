@@ -12,6 +12,10 @@ def read_xlsx_to_csv(xlsx_path, llm_name, language, is_change=False):
     xlsx_df = pd.read_excel(xlsx_path)
     print("Reading csv file:", filepath)
 
+    print(xlsx_df)
+    print(is_change)
+    return
+
     old_df = pd.read_csv(filepath, encoding='utf-8')
     df = pd.DataFrame(columns=all_columns)
     for col in old_df.columns:

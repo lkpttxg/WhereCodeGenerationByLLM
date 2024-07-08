@@ -16,7 +16,7 @@ def get_files_and_path(root, filters=None, prefix=None, suffix=None):
     files = []
     for file in files_:
         if os.path.isfile(os.path.join(root, file)) and (filters is None or filters in file.split(".")[-2]) and (
-                prefix is None or file.startswith(prefix)) and (suffix is None or file.endswith(suffix)):
+                prefix is None or file.startswith(prefix)) and (suffix is None or file.endswith(suffix)) and not file.endswith(".gitkeep"):
             files.append(file)
     paths = [os.path.join(root, file) for file in files]
     return files, paths
