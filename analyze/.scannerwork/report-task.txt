@@ -1,6 +1,0 @@
-projectKey=wherecode
-serverUrl=http://localhost:9000
-serverVersion=9.0.1.46107
-dashboardUrl=http://localhost:9000/dashboard?id=wherecode
-ceTaskId=AY98P51Dru_b9I05QJC4
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AY98P51Dru_b9I05QJC4
