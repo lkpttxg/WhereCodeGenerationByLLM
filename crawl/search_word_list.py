@@ -8,12 +8,13 @@ PROGRAM_LANGUAGE = [
     # "typescript",
 ]
 
-VERB_LIST = ["generated",
-             # "created",
-             # "authored",
-             # "implemented",
-             # "coded"
-             ]
+VERB_LIST = [
+    # "generated",
+    "created",
+    "authored",
+    # "implemented",
+    # "coded"
+]
 PREPOSITION_LIST = ["by",
                     # "through",
                     # "using",
