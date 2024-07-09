@@ -601,4 +601,3 @@ def examine_matched_code(extracted_code, file_commit_path, start_end_line_list, 
     return found_change, blocks_info
 
 
-

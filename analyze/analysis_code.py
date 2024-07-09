@@ -1417,14 +1417,8 @@ def process_final_csv(llm_name, language, extracted_final_change_code=False, cal
 
 
 if __name__ == "__main__":
-    calculate_various_measures("chatgpt", "python")
-    '''
-    '''
-    # draw_violinplot_manual_vs_gpt(top_percent=0.1)
-    # draw_violinplot_from_different_metrics("project_locs", 'Project LOCs Distribution', 'Number of Project LOCs', top_percent=0.1)
-    '''
 
-    '''
+
     # statistic_bug_fix_type(LLM_NAME.ChatGPT.value, LANGUAGE.Python.value)
     # statistic_bug_fix_type(LLM_NAME.ChatGPT.value, LANGUAGE.Java.value)
     # statistic_bug_fix_type(LLM_NAME.ChatGPT.value, LANGUAGE.CPP.value)
@@ -1441,7 +1435,7 @@ if __name__ == "__main__":
     # statistic_code_function_type(LLM_NAME.ChatGPT.value, LANGUAGE.JavaScript.value,top_percent=0.1)
     # statistic_code_function_type(LLM_NAME.ChatGPT.value, LANGUAGE.TypeScript.value, top_percent=0.1)
 
-    read_xlsx_to_csv("D:\Projects\WhereCodebyGPT/results-nochange-code-type/python-code-type.xlsx", LLM_NAME.ChatGPT.value, LANGUAGE.Python.value)
+    # read_xlsx_to_csv("D:\Projects\WhereCodebyGPT/results-nochange-code-type/python-code-type.xlsx", LLM_NAME.ChatGPT.value, LANGUAGE.Python.value)
     # read_xlsx_to_csv("D:\Projects\WhereCodebyGPT/result-code-change-type/python-code-change-type.xlsx",
     #                  LLM_NAME.ChatGPT.value, LANGUAGE.Python.value, is_change=True)
     # statistic_code_function_type(LLM_NAME.ChatGPT.value, LANGUAGE.Python.value)
