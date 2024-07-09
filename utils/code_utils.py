@@ -1,11 +1,8 @@
-import config
-from config import *
 from config import *
 from pathlib import Path
 import requests
 import zipfile
 import shutil
-# from .path_utils import get_files_and_path, get_hash_first_file
 from .data_read import load_json
 import os
 import pandas as pd

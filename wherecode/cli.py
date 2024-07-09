@@ -117,6 +117,8 @@ def main():
     elif args.command == 'crawl':
         print("====================Start task: Crawl=========================\n")
         crawl_action(args.token)
+        print("\n====================End task: Crawl=========================")
+
     else:
         parser.print_help()
 
