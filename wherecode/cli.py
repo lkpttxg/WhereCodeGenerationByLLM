@@ -1,5 +1,6 @@
 import argparse
 from analyze import *
+from crawl.code_crawler import crawl_action
 
 
 def main():
@@ -50,6 +51,8 @@ def main():
                                 default="chatgpt")
     mv_parser.add_argument('--lang', type=str, required=True, help='language',
                                 choices=["python", "java", "javascript", "typescript", "c", "cpp"])
+    crawl_parser = subparsers.add_parser('crawl',help='Based on search keywords, obtain detailed information about files, projects, and repositories containing the keywords through precise searches on GitHub.')
+    crawl_parser.add_argument("--token",type=str,required=True,help="github api token")
     args = parser.parse_args()
 
     if args.command == 'analyze':
@@ -111,6 +114,9 @@ def main():
             elif args.lang == "cpp":
                 read_xlsx_to_csv('results-code-change-type/cpp-code-change-type.xlsx', 'chatgpt', 'cpp', is_change=True)
         print("\n====================End task: Move=========================")
+    elif args.command == 'crawl':
+        print("====================Start task: Crawl=========================\n")
+        crawl_action(args.token)
     else:
         parser.print_help()
 
