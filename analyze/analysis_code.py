@@ -891,6 +891,17 @@ def splice_filter_project(llm_name, language):
         KEYWORD.Written: Path(config[llm_name][language][KEYWORD.Written.value]['manual']['res'])
     }
 
+    if language == LANGUAGE.CPP.value:
+        language_c_dirs = {
+            "C.Authored": Path(config[llm_name][LANGUAGE.C.value][KEYWORD.Authored.value]['manual']['res']),
+            "C.Coded": Path(config[llm_name][LANGUAGE.C.value][KEYWORD.Coded.value]['manual']['res']),
+            "C.Created": Path(config[llm_name][LANGUAGE.C.value][KEYWORD.Created.value]['manual']['res']),
+            "C.Generated": Path(config[llm_name][LANGUAGE.C.value][KEYWORD.Generated.value]['manual']['res']),
+            "C.Implemented": Path(config[llm_name][LANGUAGE.C.value][KEYWORD.Implemented.value]['manual']['res']),
+            "C.Written": Path(config[llm_name][LANGUAGE.C.value][KEYWORD.Written.value]['manual']['res'])
+        }
+        keyword_dirs.update(language_c_dirs)
+
     # Collect paths
     csv_file_paths = []
     for key, dir_path in keyword_dirs.items():
@@ -913,6 +924,7 @@ def splice_filter_project(llm_name, language):
             df_list.append(df)
         except FileNotFoundError:
             print(f"File not found: {csv_file_path}")
+
     if df_list:
         all_data = pd.concat(df_list, ignore_index=True)
         filtered_data = all_data[(all_data['create_time'] >= '2023-02-01') & (all_data['project_locs'].notna()) & (

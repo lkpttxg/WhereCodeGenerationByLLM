@@ -1,6 +1,6 @@
 import argparse
 from analyze import analyze_gpt_generated_code_and_more, calculate_various_measures, statistics_metrics_for_all, \
-    statistic_bug_fix_type, statistic_code_function_type
+    statistic_bug_fix_type, statistic_code_function_type, splice_filter_project
 from analyze.draw_violinplot import draw_violinplot_from_different_metrics, draw_violinplot_manual_vs_gpt
 from crawl.code_crawler import crawl_action
 from utils import read_xlsx_to_csv
@@ -36,6 +36,12 @@ def main():
     analyze_parser.add_argument('--sonarqube', required=False, nargs="?", const=True, default=False,
                                 help='Whether to analyze the gpt-generated code or project using SonarQube. Default '
                                      'is False.')
+
+    summary_parser = subparsers.add_parser('sum_res', help='Summarize the analysis results of different keywords.')
+    summary_parser.add_argument('--llm', type=str, required=False, help='Default is ChatGPT', choices=["chatgpt"],
+                                default="chatgpt")
+    summary_parser.add_argument('--lang', type=str, required=True, help='language',
+                                choices=["python", "java", "javascript", "typescript", "c", "cpp"])
 
     statdist_parser = subparsers.add_parser('stat-dist',
                                             help='Statistics on the distribution of GPT-generated code '
@@ -120,6 +126,10 @@ def main():
                                             is_download_project=args.project, is_download_commit=args.commit,
                                             is_sonarqube=args.sonarqube)
         print("\n====================End task: Analyze=========================")
+    elif args.command == "sum_res":
+        print("====================Start task: Summarize results=========================\n")
+        splice_filter_project(args.llm, args.lang)
+        print("\n====================End task: Summarize results=========================")
     elif args.command == 'stat-dist':
         print("====================Start task: Statistic distribution=========================\n")
         print(f"Analyzing the distribution of GPT-generated code characteristics in {args.lang}.")
