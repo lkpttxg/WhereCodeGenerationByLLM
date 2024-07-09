@@ -23,7 +23,7 @@ def parse_json(file_path):
 
 def load_jsonl_mul(file_path, is_arr=False, is_json=False):
     try:
-        with (open(file_path, 'r', encoding='utf-8') as f):
+        with open(file_path, 'r', encoding='utf-8') as f:
             if is_arr:
                 data = f.read().strip()
                 if not data.startswith('['):
