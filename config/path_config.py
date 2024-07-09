@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 import yaml
 
+
 # define custom tag handler
 def join(loader, node):
     seq = loader.construct_sequence(node)

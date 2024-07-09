@@ -1,5 +1,4 @@
 import json
-# from .path_utils import get_files_and_path
 
 
 def parse_json(file_path):
@@ -34,7 +33,6 @@ def load_jsonl_mul(file_path, is_arr=False, is_json=False):
                 data = json.loads(data)
                 print("==========Read File: load json===========")
                 print("file_path:" + file_path)
-                # data = [line for line in data]
             elif is_json:
                 data = f.read()
                 data = json.loads(data)
@@ -58,10 +56,3 @@ def load_jsonl_mul(file_path, is_arr=False, is_json=False):
 
 def load_json(file_path):
     return load_jsonl_mul(file_path, is_arr=True)
-
-
-
-
-if __name__ == "__main__":
-    pass
-
