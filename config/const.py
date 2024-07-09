@@ -1,12 +1,9 @@
 from enum import Enum
 
 sonarqube_server = "http://localhost:9000"
-# sonarqube_token = "Your SonarQube login token"
-sonarqube_token = "4d3710f1a2f733d06132ca37de4340fe9b98f0f2"
-# sonarqube_token = "Your SonarQube login token"
-sonarqube_username = "admin"
-# sonarqube_token = "Your SonarQube login token"
-sonarqube_password = "ll0304051X"
+sonarqube_token = "Your SonarQube login token"
+sonarqube_username = "Your SonarQube login username"
+sonarqube_password = "Your SonarQube login password"
 
 
 class LLM_NAME(Enum):
