@@ -5,10 +5,10 @@ import json
 import os
 import time
 import urllib.parse
-from pathlib import Path
 import requests
 from tqdm import tqdm
 from crawl.search_word_list import VERB_LIST, PREPOSITION_LIST, LLM_LIST, PROGRAM_LANGUAGE
+from config import config
 
 
 def parse_repo_info(url, item):
@@ -188,140 +188,109 @@ def generate_github_search_url(keyword, language, page):
     return full_url
 
 
-def dir_file_json_formatter(dir_path):
-    file_list = glob.glob(f"{dir}/*_data.json")
-    print(file_list)
-    for file_path in file_list:
-        with open(file_path, "r", encoding="utf8") as file:
-            json_str = file.read()
-        json_str = '[' + json_str
+def file_json_formatter(file_path):
+    with open(file_path, "r", encoding="utf8") as file:
+        json_str = file.read()
+    json_str = '[' + json_str
 
-        last_comma_index = json_str.rfind(',')
-        result = json_str[:last_comma_index] + ']'
+    last_comma_index = json_str.rfind(',')
+    result = json_str[:last_comma_index] + ']'
 
-        with open(file_path, "w", encoding="utf8") as file:
-            file.write(result)
-
-
-def parse_args():
-    """
-    parse args
-    :return:
-    """
-    parser = argparse.ArgumentParser(description='Process some integers.')
-    parser.add_argument('-d', type=str, help='file dir list', required=True)
-    parser.add_argument('-t', type=str, help='token str', required=True)
-    args = parser.parse_args()
-    return args
+    with open(file_path, "w", encoding="utf8") as file:
+        file.write(result)
 
 
 headers = {}
 
 
-def crawl_action(github_token):
+def crawl_action(github_token,page_wait_time,info_wait_time):
     global headers
     headers = {
         'Accept': 'application/vnd.github.text-match+json',
         'Authorization': f'Bearer {github_token}',
         'X-GitHub-Api-Version': '2022-11-28'
     }
-    base_directory_path = "./data"
-    # ================= url generate ====================
-    print("start generate crawl url")
-    for verb in VERB_LIST:
-        for preposition in PREPOSITION_LIST:
-            for llm in LLM_LIST:
-                search_key_word = f"\"{verb} {preposition} {llm}\""
-                dir_key_word_path = search_key_word.replace('\"', "").replace(" ", "-")
-                dir = Path(f"./data/{dir_key_word_path}")
-                if not dir.exists():
-                    dir.mkdir()
-                for language in PROGRAM_LANGUAGE:
-                    print(language)
-                    url = generate_github_search_url(search_key_word, language, 1)
-                    print(url)
-                    response = requests.get(url=url, headers=headers)
-                    time.sleep(8)
-                    resp_data = response.json()
-                    total_number = resp_data['total_count']
-                    print(total_number)
-                    for i in range(0, (total_number // 100) + 1):
-                        req_url = generate_github_search_url(search_key_word, language, i + 1)
-                        print(req_url)
-                        with open(f"{base_directory_path}/{dir_key_word_path}/url.txt", "w", encoding='utf8') as file:
-                            file.write(f"{language}#{req_url}\n")
-                            file.flush()
-    print("generate crawl url end")
-    # ================= url generate ====================
-
-    # ================= start crawl =====================
-    print("start crawl ")
-    folder_names = [name for name in os.listdir(base_directory_path) if
-                    os.path.isdir(os.path.join(base_directory_path, name))]
-    for keyword in folder_names:
-        with open(f"{base_directory_path}/{keyword}/url.txt", "r", encoding="utf8") as file:
-            url_lines = file.readlines()
-        # parse url get language and url
-        for url in url_lines:
-            url_info = url.split("\#")
-            language = url_info[0]
-            req_url = url_info[1].strip()
-            print(f"----------------{language}----------------{req_url}----------------")
-            pre_language = language
-            with tqdm(desc="processing items", unit="item") as pbar:
-                time.sleep(0.4)
-                response = requests.get(req_url, headers=headers)
+    for language in PROGRAM_LANGUAGE:
+        for verb in VERB_LIST:
+            # data save path
+            data_save_path = config["chatgpt"][language][verb]['src']
+            url_list = []
+            keyword_list = []
+            # get all combination list
+            for preposition in PREPOSITION_LIST:
+                for llm in LLM_LIST:
+                    # TODO: add \" means exact search if not means fuzzy search
+                    keyword_list.append(f"\"{verb} {preposition} {llm}\"")
+            # get all combination corresponding url
+            for index, keyword in enumerate(keyword_list):
+                print(f"parsed keyword:{keyword}  process {index + 1}/{len(keyword_list) + 1}")
+                url = generate_github_search_url(keyword, language, page=1)
+                url_list.append(url)
+                response = requests.get(url=url, headers=headers)
+                time.sleep(page_wait_time)
                 resp_data = response.json()
-                try:
-                    if resp_data['total_count'] == 0:
-                        continue
-                except Exception:
-                    continue
-                for index, item in enumerate(resp_data['items']):
-                    try:
-                        code_item_info_map = {}
-                        # get repo info
-                        repo_info = item['repository']
-                        # get project name
-                        code_item_info_map['project_name'] = repo_info.get('name', '')
-                        # get project html info
-                        code_item_info_map['project_html_url'] = repo_info.get('html_url', '')
-                        print("============================")
-                        print(f"get repo {repo_info.get('name', '')}abstract info:{req_url}\n")
-                        # get project html url
-                        code_item_info_map['contributor_num'] = ''
-                        code_item_info_map['language_info'] = ''
-                        REPO_INFO_BASE_URL = f"https://api.github.com/repos/{repo_info['full_name']}"
-                        parse_repo_info(url=REPO_INFO_BASE_URL,
-                                        item=code_item_info_map)
-                        owner = repo_info['owner']['login']
-                        repo_name = repo_info['name']
-                        REPO_COMMIT_BASE_URL = f"https://api.github.com/repos/{owner}/{repo_name}/commits?per_page=100&page=1"
-                        code_item_info_map['repo_all_commit_info_list'] = []
-                        parse_repo_all_commit(url=REPO_COMMIT_BASE_URL, item=code_item_info_map, owner=owner,
-                                              repo_name=repo_name)
+                total_number = resp_data['total_count']
+                print(total_number)
+                for i in range(0, (total_number // 100) + 1):
+                    req_url = generate_github_search_url(keyword, language, i + 1)
+                    url_list.append(req_url)
 
-                        file_path = item['path']
-                        code_item_info_map['file_all_commit_info_list'] = []
-                        FILE_COMMIT_BASE_URL = f"https://api.github.com/repos/{owner}/{repo_name}/commits?path={file_path}&per_page=100&page=1"
-                        parse_file_all_commit(url=FILE_COMMIT_BASE_URL, item=code_item_info_map,
-                                              file_path=file_path,
-                                              owner=owner, repo_name=repo_name)
-                        with open(f"{base_directory_path}/{keyword}/{language}_data.json", "a+",
-                                  encoding='utf8') as file:
-                            json_str = json.dumps(code_item_info_map, ensure_ascii=False)
-                            file.write(json_str + "," + "\n")
-                            file.flush()
-                    except Exception as e:
-                        print(e)
-                        with open(f"{base_directory_path}/{keyword}/url_failed.txt", "a+", encoding="utf8") as file:
-                            file.write(f"{language}#{req_url}#{index + 1}\n")
-                            file.flush()
+            for url in url_list:
+                print(f"----------------{language}----------------{url}----------------")
+                with tqdm(desc="processing items", unit="item") as pbar:
+                    time.sleep(info_wait_time)
+                    response = requests.get(url, headers=headers)
+                    resp_data = response.json()
+                    try:
+                        if resp_data['total_count'] == 0:
                             continue
-                    with open(f"{base_directory_path}/{keyword}/url_success.txt", "a+", encoding='utf8') as file:
-                        file.write(f"{language}#{url}#{index + 1}\n")
-                        file.flush()
-                    print("============================")
-                    pbar.update(1)
-        dir_file_json_formatter(f"{base_directory_path}/{keyword}")
-    print("all crawl finished")
+                    except Exception:
+                        continue
+                    for index, item in enumerate(resp_data['items']):
+                        try:
+                            code_item_info_map = {}
+                            # get repo info
+                            repo_info = item['repository']
+                            # get project name
+                            code_item_info_map['project_name'] = repo_info.get('name', '')
+                            # get project html info
+                            code_item_info_map['project_html_url'] = repo_info.get('html_url', '')
+                            print("============================")
+                            print(f"get repo {repo_info.get('name', '')}abstract info:{url}\n")
+                            # get project html url
+                            code_item_info_map['contributor_num'] = ''
+                            code_item_info_map['language_info'] = ''
+                            REPO_INFO_BASE_URL = f"https://api.github.com/repos/{repo_info['full_name']}"
+                            parse_repo_info(url=REPO_INFO_BASE_URL,
+                                            item=code_item_info_map)
+                            owner = repo_info['owner']['login']
+                            repo_name = repo_info['name']
+                            REPO_COMMIT_BASE_URL = f"https://api.github.com/repos/{owner}/{repo_name}/commits?per_page=100&page=1"
+                            code_item_info_map['repo_all_commit_info_list'] = []
+                            parse_repo_all_commit(url=REPO_COMMIT_BASE_URL, item=code_item_info_map, owner=owner,
+                                                  repo_name=repo_name)
+
+                            file_path = item['path']
+                            code_item_info_map['file_all_commit_info_list'] = []
+                            FILE_COMMIT_BASE_URL = f"https://api.github.com/repos/{owner}/{repo_name}/commits?path={file_path}&per_page=100&page=1"
+                            parse_file_all_commit(url=FILE_COMMIT_BASE_URL, item=code_item_info_map,
+                                                  file_path=file_path,
+                                                  owner=owner, repo_name=repo_name)
+                            with open(f"{data_save_path}/{language}_data.json", "a+",
+                                      encoding='utf8') as file:
+                                json_str = json.dumps(code_item_info_map, ensure_ascii=False)
+                                file.write(json_str + "," + "\n")
+                                file.flush()
+                        except Exception as e:
+                            print(e)
+                            with open(f"{data_save_path}/url_failed.txt", "a+", encoding="utf8") as file:
+                                file.write(f"{language}#{url}#{index + 1}\n")
+                                file.flush()
+                                continue
+                        with open(f"{data_save_path}/url_success.txt", "a+", encoding='utf8') as file:
+                            file.write(f"{language}#{url}#{index + 1}\n")
+                            file.flush()
+                        print("============================")
+                        pbar.update(1)
+            file_json_formatter(f"{data_save_path}/{language}_data.json")
+        print("all crawl finished")

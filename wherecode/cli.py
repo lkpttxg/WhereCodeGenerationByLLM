@@ -88,6 +88,10 @@ def main():
                                               'projects, and repositories containing the keywords through precise '
                                               'searches on GitHub.')
     crawl_parser.add_argument("--token", type=str, required=True, help="github api token")
+    crawl_parser.add_argument("--get_page_wait_time", type=int, required=False, help="request page wait time",
+                              default=10)
+    crawl_parser.add_argument("--get_info_wait_time", type=float, required=False, help="get info wait time", 
+                              default=0.4)
 
     stat_type = subparsers.add_parser("stat_type",
                                       help="Statistics of the code types, change types, and bug-fix types of "
@@ -103,6 +107,7 @@ def main():
                            help='When True, count the types of bugs leading to bug-fix code changes; when False, '
                                 'count the code type of the GPT-generated code and the types of the non-bug-fix code '
                                 'changes. Default is False.')
+    
     args = parser.parse_args()
 
     if args.command == 'analyze':
@@ -182,7 +187,7 @@ def main():
         print("\n====================End task: Move=========================")
     elif args.command == 'crawl':
         print("====================Start task: Crawl=========================\n")
-        crawl_action(args.token)
+        crawl_action(args.token, args.get_page_wait_time, args.get_info_wait_time)
         print("\n====================End task: Crawl=========================")
     elif args.command == 'stat_type':
         print("====================Start task: Stat type=========================\n")
