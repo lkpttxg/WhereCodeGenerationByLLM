@@ -1,5 +1,10 @@
 from enum import Enum
 
+sonarqube_server = "http://localhost:9000"
+sonarqube_token = "Your SonarQube login token"
+sonarqube_username = "Your SonarQube login username"
+sonarqube_password = "Your SonarQube login password"
+
 
 class LLM_NAME(Enum):
     ChatGPT = "chatgpt"
@@ -10,8 +15,8 @@ class LLM_NAME(Enum):
 
 
 class LANGUAGE(Enum):
-    Python ="python"
-    Python_name ="Python"
+    Python = "python"
+    Python_name = "Python"
     Java = "java"
     Java_name = "Java"
     CPP = "cpp"
@@ -56,7 +61,8 @@ def transform_language_str(language_name):
 
 
 all_columns = ["index", "project_name", "create_time", "project_language", "contributor", "star", "fork", "issues",
-               "watch", "project_commits", "code_language", "keyword_index", "matched_keyword", "url_of_first_file_commit",
+               "watch", "project_commits", "code_language", "keyword_index", "matched_keyword",
+               "url_of_first_file_commit",
                "path_of_first_file_commit", "final_change_commit_path", "code_granularity_data",
                "code_func_type", "number_of_bug_or_vulnerability_all_commit", "comments",
                "start_end_line_data", "first_loc", "final_start_end_line_data", "final_loc_add", "final_loc_minus",
@@ -65,7 +71,8 @@ all_columns = ["index", "project_name", "create_time", "project_language", "cont
                "change_commit_to_first_index", "change_commit_to_first_hash", "change_commit_to_first_blocks",
                "number_of_all_change_commit",
                "all_change_commit_index", "all_change_commit_hash", "all_change_commit_blocks",
-               "number_of_all_change_fix_commit", "real_fixed_commit_number", "real_fixed_commit_hash", "real_fixed_commit_reason", "all_change_fix_commit_index",
+               "number_of_all_change_fix_commit", "real_fixed_commit_number", "real_fixed_commit_hash",
+               "real_fixed_commit_reason", "all_change_fix_commit_index",
                "all_change_fix_commit_hash", "all_change_fix_commit_blocks", 'project_lines', 'project_locs',
                'project_statements', 'project_functions',
                'project_classes', 'project_files', 'project_density_comments', 'project_comments',
@@ -81,7 +88,6 @@ all_columns = ["index", "project_name", "create_time", "project_language", "cont
                'code_complexity_all', 'code_cognitive_complexity_all',
                'code_complexity_mean_method', 'code_cognitive_complexity_mean_method', "manual_vs_gpt_loc_ratio",
                "manual_vs_gpt_change_commit_ratio", "manual_vs_gpt_change_fix_commit_ratio"]
-
 
 if __name__ == "__main__":
     print(LLM_NAME.ChatGPT)
