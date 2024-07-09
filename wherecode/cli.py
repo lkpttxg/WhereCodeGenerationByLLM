@@ -1,7 +1,7 @@
 import argparse
 from analyze import analyze_gpt_generated_code_and_more, calculate_various_measures, statistics_metrics_for_all, \
-    draw_violinplot_from_different_metrics, draw_violinplot_manual_vs_gpt, statistic_bug_fix_type, \
-    statistic_code_function_type
+    statistic_bug_fix_type, statistic_code_function_type
+from analyze.draw_violinplot import draw_violinplot_from_different_metrics, draw_violinplot_manual_vs_gpt
 from crawl.code_crawler import crawl_action
 from utils import read_xlsx_to_csv
 
