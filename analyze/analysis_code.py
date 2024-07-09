@@ -946,6 +946,7 @@ def statistic_code_function_type(llm_name, language, only_bug_change=False, top_
     print("Reading csv file:", filepath)
     df = pd.read_csv(filepath)
 
+
     if only_bug_change:
         df = df[df["real_fixed_commit_number"] > 0]
 
@@ -1419,7 +1420,7 @@ def process_final_csv(llm_name, language, extracted_final_change_code=False, cal
 if __name__ == "__main__":
 
 
-    # statistic_bug_fix_type(LLM_NAME.ChatGPT.value, LANGUAGE.Python.value)
+    statistic_bug_fix_type(LLM_NAME.ChatGPT.value, LANGUAGE.Python.value)
     # statistic_bug_fix_type(LLM_NAME.ChatGPT.value, LANGUAGE.Java.value)
     # statistic_bug_fix_type(LLM_NAME.ChatGPT.value, LANGUAGE.CPP.value)
     # statistic_bug_fix_type(LLM_NAME.ChatGPT.value, LANGUAGE.JavaScript.value)

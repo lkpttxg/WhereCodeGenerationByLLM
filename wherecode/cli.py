@@ -51,8 +51,19 @@ def main():
                                 default="chatgpt")
     mv_parser.add_argument('--lang', type=str, required=True, help='language',
                                 choices=["python", "java", "javascript", "typescript", "c", "cpp"])
+
     crawl_parser = subparsers.add_parser('crawl',help='Based on search keywords, obtain detailed information about files, projects, and repositories containing the keywords through precise searches on GitHub.')
     crawl_parser.add_argument("--token",type=str,required=True,help="github api token")
+
+    stat_type = subparsers.add_parser("stat_type", help="Statistics of the code types, change types, and bug-fix types of GPT-generated code.")
+    stat_type.add_argument('--llm', type=str, required=False, help='llm name', choices=["chatgpt"],
+                           default="chatgpt")
+    stat_type.add_argument('--lang', type=str, required=True, help='language',
+                           choices=["python", "java", "javascript", "typescript", "c", "cpp"])
+    stat_type.add_argument('--percent', required=False,
+                                 help='Analyze the top percentage of high-start projects, for example, 0.1 represents the top 10%. Deafult is 1.0')
+    stat_type.add_argument('--fix', required=False, nargs="?", const=True, default=False,
+                           help='When True, count the types of bugs leading to bug-fix code changes; when False, count the code type of the GPT-generated code and the types of the non-bug-fix code changes. Default is False.')
     args = parser.parse_args()
 
     if args.command == 'analyze':
@@ -118,7 +129,13 @@ def main():
         print("====================Start task: Crawl=========================\n")
         crawl_action(args.token)
         print("\n====================End task: Crawl=========================")
-
+    elif args.command == 'stat_type':
+        print("====================Start task: Stat type=========================\n")
+        if args.fix:
+            statistic_bug_fix_type(args.llm, args.lang)
+        else:
+            statistic_code_function_type(args.llm, args.lang, top_percent=args.percent)
+        print("\n====================End task: Stat type=========================")
     else:
         parser.print_help()
 
