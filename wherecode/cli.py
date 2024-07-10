@@ -1,6 +1,6 @@
 import argparse
 from analyze import analyze_gpt_generated_code_and_more, calculate_various_measures, statistics_metrics_for_all, \
-    statistic_bug_fix_type, statistic_code_function_type, splice_filter_project
+    statistic_bug_fix_type, statistic_code_function_type, splice_filter_project, process_final_csv
 from analyze.draw_violinplot import draw_violinplot_from_different_metrics, draw_violinplot_manual_vs_gpt
 from crawl.code_crawler import crawl_action
 from utils import read_xlsx_to_csv
@@ -42,6 +42,8 @@ def main():
                                 default="chatgpt")
     summary_parser.add_argument('--lang', type=str, required=True, help='language',
                                 choices=["python", "java", "javascript", "typescript", "c", "cpp"])
+    summary_parser.add_argument('--extract', required=False, nargs="?", const=True, default=False,
+                                help="Whether to extract final changed GPT-generated code. Default is False.")
 
     statdist_parser = subparsers.add_parser('stat-dist',
                                             help='Statistics on the distribution of GPT-generated code '
@@ -129,6 +131,8 @@ def main():
     elif args.command == "sum_res":
         print("====================Start task: Summarize results=========================\n")
         splice_filter_project(args.llm, args.lang)
+        if args.extract:
+            process_final_csv(args.llm, args.lang, extracted_final_change_code=args.extract)
         print("\n====================End task: Summarize results=========================")
     elif args.command == 'stat-dist':
         print("====================Start task: Statistic distribution=========================\n")

@@ -252,6 +252,7 @@ def analyze_gpt_generated_code_and_more(llm_name, language, keyword, start=None,
             language_type = utils.get_code_language(file_commits[-1].get('file_path'), extra=language)
 
         # 【success filter project】
+
         df.loc[now_index, 'index'] = index
         df.loc[now_index, 'project_name'] = project_name
         df.loc[now_index, 'create_time'] = formatted_time
@@ -267,6 +268,8 @@ def analyze_gpt_generated_code_and_more(llm_name, language, keyword, start=None,
         df.loc[now_index, 'matched_keyword'] = matched_keyword
         df.loc[now_index, 'path_of_first_file_commit'] = path_of_first_file_commit_value
         df.loc[now_index, 'number_of_commits'] = len(file_commits)
+        url_of_first_file_commit = file_commits[-1].get('html_url')
+        df.at[index, "url_of_first_file_commit"] = url_of_first_file_commit
 
         # get number_of_bug_or_vulnerability_all_commit
         number_of_bug_or_vulnerability_all_commit = 0
@@ -293,6 +296,14 @@ def analyze_gpt_generated_code_and_more(llm_name, language, keyword, start=None,
         if not extracted_code or not analysis_file_paths:
             print("No code extracted, skipping this row.")
             continue
+
+        final_chang_commit_path = df.loc[now_index, 'final_change_commit_path']
+        if not pd.isna(final_chang_commit_path) and final_chang_commit_path:
+            final_file_path = Path(config[llm_name][language][keyword]['projects']['src']) / final_chang_commit_path
+            start_end_line_data = df.loc[now_index, 'final_start_end_line_data']
+            start_end_line_list = parse_str_to_arr(start_end_line_data)
+            extract_code_and_save(llm_name, language, keyword, final_file_path, final_chang_commit_path,
+                                  start_end_line_list, code_granularity_data, is_save_code=is_save_code, is_first=False)
 
         # check whether the code is changed
         if is_diff:
@@ -697,6 +708,7 @@ def analyze_gpt_generated_code_and_more(llm_name, language, keyword, start=None,
                         'value')
                     df.loc[now_index, 'code_cognitive_complexity_all'] = code_cognitive_complexity_all
                     print(f'code_cognitive_complexity_all: {code_cognitive_complexity_all}')
+
                     # code_complexity_mean_method
                     df.loc[now_index, 'code_complexity_mean_method'] = calculate_complexity_mean(code_complexity_all,
                                                                                                  code_functions)
@@ -706,6 +718,7 @@ def analyze_gpt_generated_code_and_more(llm_name, language, keyword, start=None,
                     df.loc[now_index, 'code_cognitive_complexity_mean_method'] = calculate_complexity_mean(
                         code_cognitive_complexity_all,
                         code_functions)
+
                     print(
                         f'code_cognitive_complexity_mean_method: {calculate_complexity_mean(code_cognitive_complexity_all, code_functions)}')
 
