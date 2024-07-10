@@ -203,7 +203,7 @@ def file_json_formatter(file_path):
 headers = {}
 
 
-def crawl_action(github_token,page_wait_time,info_wait_time):
+def crawl_action(github_token, page_wait_time, info_wait_time):
     global headers
     headers = {
         'Accept': 'application/vnd.github.text-match+json',
@@ -292,5 +292,9 @@ def crawl_action(github_token,page_wait_time,info_wait_time):
                             file.flush()
                         print("============================")
                         pbar.update(1)
-            file_json_formatter(f"{data_save_path}/{language}_data.json")
+            if os.path.exists(f"{data_save_path}/{language}_data.json"):
+                file_json_formatter(f"{data_save_path}/{language}_data.json")
+            else:
+                with open(f"{data_save_path}/{language}_data.json", "a", encoding="utf8") as file:
+                    file.close()
         print("all crawl finished")
