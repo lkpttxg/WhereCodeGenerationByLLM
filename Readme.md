@@ -43,6 +43,46 @@ In order to represent how developers actually utilize Large Language Models (LLM
   
   ## Project Structure
   
+  The main components of this code include a web crawler script for GitHub mining, as well as a data analysis module tailored for the GPT-generated code and its associated projects.
+  
+  **Project Structure Description**
+  
+  ```shell
+  WhereCodeGenerationByLLM
+      ├─crawled_data
+      │    └─ChatGPT
+      │        ├─python
+      │        │    ├─created
+      │        │    │    ├─code/
+      │        │    │    ├─code_change/
+      │        │    │    ├─project/
+      │        │    │    └─Python_data.json
+      │        │    ├─generated
+      │        │    ├─coded
+      │        │    ├─written
+      │        │    └─implemented
+      │        ├─java
+      │        ├─javascript
+      │        ├─typescript
+      │        ├─cpp
+      │        └─c
+      ├─analyze
+      ├─config
+      ├─crawl
+      ├─analysis_results
+      ├─utils
+      ├─results-code-change-type
+      ├─results-code-nochange-type
+      └─wherecode
+          └─cli.py
+  ```
+  
+  > The related source data and analysis results for the GPT-generated code are stored in the path arrangement of `ChatGPT/{Language}/{Keyword}`. Note that path `ChatGPT` represents both ChaGPT and Copilot together, and we have not made a separation.
+  
+  ### crawled data
+  
+  
+  
   
   
   ## Get Started
