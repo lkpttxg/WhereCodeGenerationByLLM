@@ -41,12 +41,12 @@ In order to represent how developers actually utilize Large Language Models (LLM
   
   
   
-  ## Project Structure
-  
+## Project Structure
+
   The main components of this code include a web crawler script for GitHub mining, as well as a data analysis module tailored for the GPT-generated code and its associated projects.
-  
+
   **Project Structure Description**
-  
+
   ```shell
   WhereCodeGenerationByLLM
       ├─crawled_data
@@ -66,41 +66,83 @@ In order to represent how developers actually utilize Large Language Models (LLM
       │        ├─typescript
       │        ├─cpp
       │        └─c
-      ├─analyze
-      ├─config
-      ├─crawl
       ├─analysis_results
+      │    └─ChatGPT
+      │        ├─python
+      │        │    ├─created
+      │        │    ├─generated
+      │        │    ├─coded
+      │        │    ├─written
+      │        │    ├─implemented
+      │        │    ├─visualization
+      │        │    └─Python_dataonly_first.csv
+      │        ├─java
+      │        ├─javascript
+      │        ├─typescript
+      │        ├─cpp
+      │        └─visualization
+      ├─analyze
+      ├─crawl
+      ├─config
       ├─utils
       ├─results-code-change-type
       ├─results-code-nochange-type
       └─wherecode
           └─cli.py
   ```
+
+  > The related source data and analysis results for the GPT-generated code are stored in the path arrangement of `ChatGPT/{Language}/{Keyword}`. Note that path `ChatGPT` represents both ChatGPT and Copilot together, and we have not made a separation.
+
+* **crawled_data**: 
   
-  > The related source data and analysis results for the GPT-generated code are stored in the path arrangement of `ChatGPT/{Language}/{Keyword}`. Note that path `ChatGPT` represents both ChaGPT and Copilot together, and we have not made a separation.
+  The `crawled_data` directory contains GitHub-mined metadata (e.g., `crawled_data/python/created/Python_data.json`), downloaded files and projects that include GPT-generated code (e.g., `crawled_data/python/created/project`), extracted GPT-generated code segments (e.g., `crawled_data/python/created/code`), and the last modified GPT-generated code (e.g., `crawled_data/python/created/code_change`).
   
-  ### crawled data
+  For example, `crawled_data/python/created/Python_data.json` is the GitHub metadata of files and projects that may be related to GPT-generated code of Python language, which we have queried using the verb "created." The specific format of this `Python_data.json` is as shown in [ Format of mined json file](#).
   
+  **Notice:** Due to the large size of the `crawled_data`, on GitHub, I have only uploaded the metadata for the 'created' crawls specific to the Python language. If you want to obtain all the crawled and source data content, we provide two versions available for download on OneDrive:
   
+  1. **Full version**: Includes metadata from all GitHub crawls for five languages, downloaded projects, files, extracted GPT-generated code, and the last modified GPT-generated code. **After downloading, you can directly extract the files to overwrite the original `crawled_data` folder.**
   
+     **[crawled_data.zip](https://1drv.ms/u/s!AoC1JXWLcNgVgWmwX_qKd4lXTFQ5)**
   
+  2. **Processed version**: Comprises three parts: source files containing GPT-generated code, extracted GPT-generated code, and the last modified GPT-generated code. **This content is primarily intended for users to perform secondary processing on the GPT-generated code.**
   
-  ## Get Started
+     **[gpt_code_snippets&files.zip](https://1drv.ms/u/s!AoC1JXWLcNgVgWqwX_qKd4lXTFQ5)**
   
+* **analysis_results**: 
   
+  The `analysis_results` directory contains the analysis results for each language, where `cpp` represents the combined analysis results for both C and C++ languages. The summary of the analysis results is stored in a CSV file, such as `analysis_results/ChatGPT/python/Python_dataonly_first.csv` (for details on the meaning of each field in the analysis results, see [Detailed Explanation]()). The `visualization` folder, on the other hand, contains some charts and statistical results.
   
-  ## Detailed Supplement (Files) <span id="detailed-supplement"></span>
+* **results-code-change-type**: Contains the types of changes for each GPT-generated code snippets.
   
+* **results-code-nochange-type**: Contains the functional types of each GPT-generated code snippets.
   
+* **analyze**: Data Analysis and Visualization Module.
   
-  ## License
+* **crawl**: GitHub Data Mining Module.
   
+* **config**: Project Configuration Module.
+  
+* **utils**: Project Utils Module.
+  
+* **wherecode**: Command Line Configuration.
+  
+## Get Started
+
+  
+
+## Detailed Supplement (Files) <span id="detailed-supplement"></span>
+
+  
+
+## License
+
   Our code is licensed under the [Apache-2.0 license](LICENSE).
+
   
-  
-  
-  ## Citation
-  
+
+## Citation
+
   ```
   @article{yu2024large,
     title={Where Are Large Language Models for Code Generation on GitHub?},
@@ -109,13 +151,13 @@ In order to represent how developers actually utilize Large Language Models (LLM
     year={2024}
   }
   ```
+
   
+
   
+
   
+
   
-  
-  
-  
-  
-  
+
   
