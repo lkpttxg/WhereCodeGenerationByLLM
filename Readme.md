@@ -129,7 +129,27 @@ In order to represent how developers actually utilize Large Language Models (LLM
   
 ## Get Started
 
-  
+```shell
+python cli.py crawl --token=<github token> --get_page_wait_time=<github url crawl interval> --get_info_wait_time=<file detail info interval>
+```
+
+eg: 
+
+```
+python cli.py crawl --token=xxxxxxxxx --get_page_wait_time=10 --get_info_wait_time=0.4
+```
+
+args:
+
+`--token`: Your github token.For details on how to obtain githubtoken, please refer to the website [GitHub Docs](https://docs.github.com/en).
+
+`--get_page_wait_time`: Before crawling starts, we need to generate the interface url according to the number of query files.Due to the relevant policies of github rest api, there are corresponding rate limits for different tokens. Please set the paging query rate according to your token permissions. The paging query interval for common users is 10s
+
+`--get_info_wait_time`:Interval for obtaining all information about a file.Due to the relevant policies of github rest api, there are corresponding rate limits for different tokens.In order to ensure the stable operation of the crawler, we choose 0.4s as the crawl interval.
+
+🚧Please refer to the specific rate limit  [Rate limits for the REST API - GitHub Docs](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api?apiVersion=2022-11-28)
+
+if you want to search other keywords please change the code of `crawl/search_words_list.py`.
 
 ## Detailed Supplement (Files) <span id="detailed-supplement"></span>
 
