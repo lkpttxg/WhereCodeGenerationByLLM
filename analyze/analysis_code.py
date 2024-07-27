@@ -143,7 +143,7 @@ def analyze_gpt_generated_code_and_more(llm_name, language, keyword, start=None,
                     try:
                         with requests.get(file_download_url, stream=True) as r:
                             r.raise_for_status()  # Raises a HTTPError if the response status code is 4XX/5XX
-                            with open(local_file_path, 'wb', encoding='utf-8') as f:
+                            with open(local_file_path, 'wb') as f:
                                 for chunk in r.iter_content(chunk_size=8192):
                                     if chunk:
                                         f.write(chunk)
